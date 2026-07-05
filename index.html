@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/modal-gallery.css">
 </head>
 <body>
 
@@ -31,16 +32,51 @@
 
   <main>
 
-    <!-- ===== HERO SLIDESHOW ===== -->
-    <section class="hero">
-      <div class="hero-slideshow" aria-hidden="true">
-        <div class="hero-slide" style="background-image:url('assets/images/hero-1.png')"></div>
-        <div class="hero-slide" style="background-image:url('assets/images/hero-2.png')"></div>
-        <div class="hero-slide" style="background-image:url('assets/images/hero-3.png')"></div>
-        <div class="hero-slide" style="background-image:url('assets/images/hero-4.png')"></div>
-        <div class="hero-slide" style="background-image:url('assets/images/hero-5.png')"></div>
+    <!-- ===== HERO COLLAGE ===== -->
+    <section class="hero" role="region" aria-label="هیرو نمایندگی">
+      <div class="hero-ambient" aria-hidden="true"></div>
+
+      <!-- Text Content -->
+      <div class="hero-text-wrap">
+        <h1 class="hero-heading">
+          فروش و خدمات خودرو با <span class="hero-heading-accent">اطمینان کامل</span>
+        </h1>
+        <p class="hero-subtitle">
+          بیش از یک دهه تجربه در فروش خودرو، سرویس دوره‌ای و خدمات پس از فروش. با آسودگی خاطر خودروی خود را از نمایندگی مجاز ما تهیه کنید.
+        </p>
+        <a href="#cards" class="hero-cta-btn">مشاهده خودروها</a>
       </div>
-      <div class="hero-gradient" aria-hidden="true"></div>
+
+      <!-- Image Collage -->
+      <div class="hero-img-collage" aria-hidden="true">
+        <div class="hero-collage-inner">
+          <img src="assets/images/hero-1.png"  alt="" class="collage-img collage-img--center"       loading="eager" style="animation-delay:0s">
+          <img src="assets/images/hero-2.png"  alt="" class="collage-img collage-img--top-left"     style="animation-delay:-1.2s">
+          <img src="assets/images/hero-3.png"  alt="" class="collage-img collage-img--top-right"    style="animation-delay:-2.5s">
+          <img src="assets/images/hero-4.png"  alt="" class="collage-img collage-img--bottom-right" style="animation-delay:-3.5s">
+          <img src="assets/images/hero-5.png"  alt="" class="collage-img collage-img--far-right"    style="animation-delay:-4.8s">
+          <img src="assets/images/hero-6.png"  alt="" class="collage-img collage-img--bottom-left"  style="animation-delay:-5.2s">
+          <img src="assets/images/hero-7.png"    alt="" class="collage-img collage-img--far-left"     style="animation-delay:-6s">
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero-stats-wrap">
+        <div class="hero-stat">
+          <span class="hero-stat-value">۱۰+</span>
+          <span class="hero-stat-label">سال تجربه</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">۵۰۰۰+</span>
+          <span class="hero-stat-label">مشتری راضی</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">۱۰۰٪</span>
+          <span class="hero-stat-label">ضمانت اصالت</span>
+        </div>
+      </div>
     </section>
 
     <!-- ===== CARDS GRID ===== -->
@@ -150,6 +186,116 @@
       </div>
     </section>
 
+    <!-- ===== TESTIMONIALS CAROUSEL ===== -->
+    <section class="testimonials-section" aria-label="نظرات مشتریان">
+      <div class="testimonials-inner">
+        <header class="testimonials-header">
+          <p class="testimonials-label">مشتریان ما می‌گویند</p>
+          <h2 class="testimonials-title">تجربه‌های واقعی</h2>
+        </header>
+        <div class="tc-carousel" role="region" aria-roledescription="carousel" aria-label="نظرات مشتریان">
+          <div class="tc-track-wrapper">
+            <div class="tc-track" id="tcTrack">
+
+              <article class="tc-card" role="group" aria-roledescription="slide" aria-label="نظر ۱ از ۶">
+                <div class="tc-card-top">
+                  <div class="tc-stars" aria-hidden="true">★★★★★</div>
+                  <blockquote class="tc-quote"><p>از همان لحظه ورود تا تحویل خودرو، همه چیز حرفه‌ای و دلسوزانه بود. خانم کرمی با صبر و دقت تمام سوالاتم را پاسخ دادند.</p></blockquote>
+                </div>
+                <footer class="tc-card-footer">
+                  <div class="tc-avatar" aria-hidden="true">م</div>
+                  <div>
+                    <p class="tc-customer-name">محمد رضایی</p>
+                    <p class="tc-customer-detail">خریدار پژو ۲۰۸</p>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="tc-card" role="group" aria-roledescription="slide" aria-label="نظر ۲ از ۶">
+                <div class="tc-card-top">
+                  <div class="tc-stars" aria-hidden="true">★★★★★</div>
+                  <blockquote class="tc-quote"><p>نوبت‌گیری آنلاین خیلی راحت بود و سرویس در زمان مقرر انجام شد. واحد سرویس این نمایندگی واقعاً ممتاز است.</p></blockquote>
+                </div>
+                <footer class="tc-card-footer">
+                  <div class="tc-avatar" aria-hidden="true">ف</div>
+                  <div>
+                    <p class="tc-customer-name">فاطمه احمدی</p>
+                    <p class="tc-customer-detail">مشتری سرویس دوره‌ای</p>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="tc-card" role="group" aria-roledescription="slide" aria-label="نظر ۳ از ۶">
+                <div class="tc-card-top">
+                  <div class="tc-stars" aria-hidden="true">★★★★★</div>
+                  <blockquote class="tc-quote"><p>مشکل گارانتی خودروم بدون هیچ دردسری در کمترین زمان حل شد. پیگیری خانم اکبری واقعاً قابل تقدیر بود.</p></blockquote>
+                </div>
+                <footer class="tc-card-footer">
+                  <div class="tc-avatar" aria-hidden="true">ع</div>
+                  <div>
+                    <p class="tc-customer-name">علی کریمی</p>
+                    <p class="tc-customer-detail">گارانتی خودرو</p>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="tc-card" role="group" aria-roledescription="slide" aria-label="نظر ۴ از ۶">
+                <div class="tc-card-top">
+                  <div class="tc-stars" aria-hidden="true">★★★★★</div>
+                  <blockquote class="tc-quote"><p>بهترین نمایندگی‌ای که تا به حال رفتم. محیط تمیز، کارشناسان متخصص و قیمت‌گذاری شفاف. قطعاً دوباره مراجعه می‌کنم.</p></blockquote>
+                </div>
+                <footer class="tc-card-footer">
+                  <div class="tc-avatar" aria-hidden="true">م</div>
+                  <div>
+                    <p class="tc-customer-name">مریم حسینی</p>
+                    <p class="tc-customer-detail">خریدار خودرو</p>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="tc-card" role="group" aria-roledescription="slide" aria-label="نظر ۵ از ۶">
+                <div class="tc-card-top">
+                  <div class="tc-stars" aria-hidden="true">★★★★★</div>
+                  <blockquote class="tc-quote"><p>خدمات پس از فروش این نمایندگی واقعاً حرف ندارد. هر بار که مراجعه می‌کنم با احترام و سرعت مشکلم حل می‌شود.</p></blockquote>
+                </div>
+                <footer class="tc-card-footer">
+                  <div class="tc-avatar" aria-hidden="true">ر</div>
+                  <div>
+                    <p class="tc-customer-name">رضا محمدی</p>
+                    <p class="tc-customer-detail">مشتری دائمی</p>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="tc-card" role="group" aria-roledescription="slide" aria-label="نظر ۶ از ۶">
+                <div class="tc-card-top">
+                  <div class="tc-stars" aria-hidden="true">★★★★★</div>
+                  <blockquote class="tc-quote"><p>فضای نمایشگاه بسیار شیک و مدرن است. کارشناسان بسیار آگاه و صادق هستند. از خریدم کاملاً راضی‌ام.</p></blockquote>
+                </div>
+                <footer class="tc-card-footer">
+                  <div class="tc-avatar" aria-hidden="true">ز</div>
+                  <div>
+                    <p class="tc-customer-name">زهرا اکبری</p>
+                    <p class="tc-customer-detail">خریدار پژو ۲۰۸</p>
+                  </div>
+                </footer>
+              </article>
+
+            </div>
+          </div>
+          <div class="tc-controls" role="group" aria-label="کنترل‌های کاروسل">
+            <button class="tc-btn" id="tcPrev" aria-label="اسلاید قبلی">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="tc-dots" id="tcDots" role="tablist" aria-label="انتخاب اسلاید"></div>
+            <button class="tc-btn" id="tcNext" aria-label="اسلاید بعدی">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ===== MODAL تماس با ما ===== -->
@@ -187,6 +333,143 @@
   <footer class="site-footer">
     <p>© ۱۴۰۴ نمایندگی مجاز ۱۷۳۷ زراعتکار — تمامی حقوق محفوظ است</p>
   </footer>
+
+  <script src="js/modal-gallery.js"></script>
+  <script>
+    (function () {
+      var track        = document.getElementById('tcTrack');
+      var dotsWrap     = document.getElementById('tcDots');
+      var prevBtn      = document.getElementById('tcPrev');
+      var nextBtn      = document.getElementById('tcNext');
+      var carousel     = track.closest('.tc-carousel');
+      var cards        = Array.from(track.querySelectorAll('.tc-card'));
+      var total        = cards.length;
+      var GAP          = 20;
+      var current      = 0;
+      var autoTimer    = null;
+      var resizeTimer  = null;
+      var lastPageCount = 0;
+      var dragging     = false;
+      var dragStartX   = 0;
+      var dragCurrentX = 0;
+      var startOffset  = 0;
+
+      function getVisible() {
+        return window.innerWidth >= 1024 ? 3 : window.innerWidth >= 600 ? 2 : 1;
+      }
+      function getMaxIndex() { return Math.max(0, total - getVisible()); }
+      function getCardWidth() {
+        return (track.parentElement.offsetWidth - GAP * (getVisible() - 1)) / getVisible();
+      }
+      function setCardWidths() {
+        var w = getCardWidth();
+        cards.forEach(function (c) { c.style.width = w + 'px'; });
+      }
+      function getOffset(idx) { return idx * (getCardWidth() + GAP); }
+
+      function applyTransform(animate) {
+        if (!animate) track.style.transition = 'none';
+        track.style.transform = 'translateX(-' + getOffset(current) + 'px)';
+        if (!animate) requestAnimationFrame(function () { track.style.transition = ''; });
+      }
+
+      function goTo(idx, animate) {
+        if (animate === undefined) animate = true;
+        current = Math.max(0, Math.min(idx, getMaxIndex()));
+        applyTransform(animate);
+        rebuildDotsIfNeeded();
+        updateDots();
+      }
+
+      function next() { goTo(current >= getMaxIndex() ? 0 : current + 1); }
+      function prev() { goTo(current <= 0 ? getMaxIndex() : current - 1); }
+
+      function rebuildDotsIfNeeded() {
+        var pageCount = getMaxIndex() + 1;
+        if (pageCount === lastPageCount) return;
+        lastPageCount = pageCount;
+        dotsWrap.innerHTML = '';
+        for (var i = 0; i < pageCount; i++) {
+          (function (idx) {
+            var dot = document.createElement('button');
+            dot.className = 'tc-dot';
+            dot.setAttribute('role', 'tab');
+            dot.setAttribute('aria-label', 'اسلاید ' + (idx + 1) + ' از ' + pageCount);
+            dot.addEventListener('click', function () { goTo(idx); restartAutoplay(); });
+            dotsWrap.appendChild(dot);
+          })(i);
+        }
+      }
+
+      function updateDots() {
+        dotsWrap.querySelectorAll('.tc-dot').forEach(function (d, i) {
+          var active = i === current;
+          d.classList.toggle('is-active', active);
+          d.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      }
+
+      function startAutoplay()   { autoTimer = setInterval(next, 5000); }
+      function stopAutoplay()    { clearInterval(autoTimer); }
+      function restartAutoplay() { stopAutoplay(); startAutoplay(); }
+
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+
+      prevBtn.addEventListener('click', function () { prev(); restartAutoplay(); });
+      nextBtn.addEventListener('click', function () { next(); restartAutoplay(); });
+
+      carousel.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft')  { next(); restartAutoplay(); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { prev(); restartAutoplay(); e.preventDefault(); }
+      });
+
+      function dragStart(x) {
+        dragging = true; dragStartX = x; dragCurrentX = x;
+        startOffset = getOffset(current);
+        track.classList.add('is-dragging');
+        stopAutoplay();
+      }
+      function dragMove(x) {
+        if (!dragging) return;
+        dragCurrentX = x;
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(' + (-startOffset + (x - dragStartX)) + 'px)';
+      }
+      function dragEnd() {
+        if (!dragging) return;
+        dragging = false;
+        track.classList.remove('is-dragging');
+        var delta = dragCurrentX - dragStartX;
+        var threshold = getCardWidth() * 0.2;
+        if (delta < -threshold) next();
+        else if (delta > threshold) prev();
+        else goTo(current);
+        startAutoplay();
+      }
+
+      track.addEventListener('mousedown', function (e) { e.preventDefault(); dragStart(e.clientX); });
+      document.addEventListener('mousemove', function (e) { if (dragging) dragMove(e.clientX); });
+      document.addEventListener('mouseup', function () { if (dragging) dragEnd(); });
+
+      track.addEventListener('touchstart', function (e) { dragStart(e.touches[0].clientX); }, { passive: true });
+      track.addEventListener('touchmove',  function (e) { if (dragging) dragMove(e.touches[0].clientX); }, { passive: true });
+      track.addEventListener('touchend',   function ()  { if (dragging) dragEnd(); });
+
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          setCardWidths();
+          goTo(Math.min(current, getMaxIndex()), false);
+        }, 150);
+      });
+
+      setCardWidths();
+      rebuildDotsIfNeeded();
+      updateDots();
+      startAutoplay();
+    })();
+  </script>
 
   <script>
     (function () {
