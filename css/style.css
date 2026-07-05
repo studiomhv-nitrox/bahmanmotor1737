@@ -904,4 +904,281 @@ a { color: inherit; text-decoration: none; }
   .collage-img { animation: none; transition: none; }
   .hero-cta-btn { transition: none; }
   .contact-modal-overlay, .contact-modal-box { transition: none; }
+  .review-inner { animation: none; opacity: 1; transition: none; }
+  .review-submit-btn, .review-input, .review-toast { transition: none; }
+}
+
+/* ============================================
+   LEAVE A REVIEW SECTION
+   ============================================ */
+
+/* Entrance animation — triggered by IntersectionObserver */
+@keyframes review-fade-up {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.review-section {
+  padding: 5rem 1.25rem;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(247,189,33,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(247,189,33,0.03) 0%, transparent 50%),
+    var(--color-bg);
+}
+
+/* Dark glassmorphism card */
+.review-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border-radius: 26px;
+  border: 1px solid rgba(247, 189, 33, 0.14);
+  padding: 3rem 2.5rem;
+  box-shadow:
+    0 8px 48px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  opacity: 0; /* hidden until JS adds .is-visible */
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.review-inner.is-visible {
+  animation: review-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Subtle golden glow on hover */
+.review-inner:hover {
+  border-color: rgba(247, 189, 33, 0.3);
+  box-shadow:
+    0 12px 60px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(247, 189, 33, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ---- Section Header ---- */
+.review-header {
+  text-align: center;
+  margin-bottom: 2.75rem;
+}
+
+/* Small golden label — matches .testimonials-label style */
+.review-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-gold);
+  opacity: 0.8;
+  margin-bottom: 0.65rem;
+}
+
+.review-title {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 0.85rem;
+  line-height: 1.35;
+}
+
+.review-desc {
+  font-size: 0.875rem;
+  color: rgba(240, 240, 240, 0.45);
+  line-height: 1.9;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ---- Form Layout ---- */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Two columns on tablet+ */
+.review-fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.review-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+}
+
+.review-field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(240, 240, 240, 0.68);
+}
+
+/* ---- Inputs & Textarea ---- */
+.review-input {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(247, 189, 33, 0.14);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  outline: none;
+  width: 100%;
+  text-align: right;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.review-input::placeholder {
+  color: rgba(240, 240, 240, 0.22);
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+/* Gentle glow animation on focus */
+.review-input:focus {
+  border-color: rgba(247, 189, 33, 0.5);
+  background: rgba(247, 189, 33, 0.04);
+  box-shadow: 0 0 0 3px rgba(247, 189, 33, 0.09), 0 0 20px rgba(247, 189, 33, 0.06);
+}
+
+/* Error highlight */
+.review-input.is-error {
+  border-color: rgba(220, 80, 80, 0.55);
+  box-shadow: 0 0 0 3px rgba(220, 80, 80, 0.07);
+}
+
+.review-textarea {
+  resize: vertical;
+  min-height: 128px;
+  line-height: 1.85;
+}
+
+/* Inline error message below each field */
+.review-field-error {
+  font-size: 0.72rem;
+  color: #e07070;
+  min-height: 1em;
+  display: block;
+  padding-right: 0.2rem;
+}
+
+/* ---- Star Rating ---- */
+.review-stars {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0;
+  gap: 0.1rem;
+}
+
+.review-star {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: rgba(247, 189, 33, 0.18);
+  cursor: pointer;
+  padding: 0.1rem 0.18rem;
+  line-height: 1;
+  font-family: inherit;
+  transition: color 0.15s ease, transform 0.15s ease, filter 0.15s ease;
+}
+
+/* Lit state: filled and glowing */
+.review-star.is-lit {
+  color: var(--color-gold);
+  filter: drop-shadow(0 0 6px rgba(247, 189, 33, 0.55));
+}
+
+.review-star:hover {
+  transform: scale(1.22);
+}
+
+/* Error state: tint empty stars red to draw attention */
+.review-stars.is-error .review-star:not(.is-lit) {
+  color: rgba(220, 80, 80, 0.3);
+}
+
+/* ---- Submit Button ---- */
+.review-submit-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.review-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 3.5rem;
+  border-radius: var(--radius-btn);
+  background: var(--color-gold);
+  color: #0d0d0d;
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 22px rgba(247, 189, 33, 0.35), 0 0 40px rgba(247, 189, 33, 0.1);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.review-submit-btn:hover {
+  background: var(--color-gold-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(247, 189, 33, 0.5), 0 0 60px rgba(247, 189, 33, 0.18);
+}
+
+.review-submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 18px rgba(247, 189, 33, 0.3);
+}
+
+.review-submit-btn:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* ---- Success Toast ---- */
+.review-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(14, 12, 4, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(247, 189, 33, 0.28);
+  border-radius: 14px;
+  padding: 1rem 1.75rem;
+  color: var(--color-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: 'Vazirmatn', sans-serif;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.65), 0 0 30px rgba(247,189,33,0.1);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  text-align: center;
+  max-width: min(480px, calc(100vw - 2rem));
+}
+
+.review-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .review-inner { padding: 2.25rem 1.5rem; }
+}
+
+@media (max-width: 600px) {
+  .review-fields-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .review-section    { padding: 4rem 1rem; }
+  .review-inner      { padding: 1.75rem 1.1rem; border-radius: 20px; }
+  .review-submit-btn { width: 100%; padding: 0.9rem 2rem; }
 }

@@ -2,6 +2,228 @@
 <html dir="rtl" lang="fa">
 <head>
   <meta charset="UTF-8">
+  <style>
+    /* ============================
+       SITE LOADER — CRITICAL CSS
+       ============================ */
+    html { background: #0d0d0d; }
+
+    /* Hide page content until loader completes */
+    .site-header,
+    main {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .6s ease-out .1s, transform .6s ease-out .1s;
+    }
+    .site-header.app-ready,
+    main.app-ready { opacity: 1; transform: none; }
+
+    /* ---- Fullscreen overlay ---- */
+    #site-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Vazirmatn', -apple-system, sans-serif;
+      background: linear-gradient(155deg, #030303 0%, #0f0f0f 55%, #060606 100%);
+      overflow: hidden;
+      transition: opacity .45s ease;
+    }
+    #site-loader.is-hiding { opacity: 0; pointer-events: none; }
+
+    /* Vignette */
+    #site-loader::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.8) 100%);
+      pointer-events: none;
+    }
+
+    /* Animated noise texture */
+    #site-loader::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+      pointer-events: none;
+    }
+
+    /* Radial gold glow behind logo */
+    .loader-glow {
+      position: absolute;
+      width: 560px;
+      height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(247,189,33,.065) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* ---- Floating particles ---- */
+    .loader-particles { position: absolute; inset: 0; pointer-events: none; }
+    .loader-particle {
+      position: absolute;
+      bottom: -4px;
+      border-radius: 50%;
+      background: rgba(247,189,33,.45);
+      animation: l-rise linear infinite;
+    }
+    @keyframes l-rise {
+      from { transform: translateY(0) translateX(0); opacity: 0; }
+      5%   { opacity: .75; }
+      85%  { opacity: .35; }
+      to   { transform: translateY(-100vh) translateX(14px); opacity: 0; }
+    }
+
+    /* ---- Content wrapper ---- */
+    .loader-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* ---- Logo with float & reflection ---- */
+    .loader-img-wrap {
+      position: relative;
+      margin-bottom: 2rem;
+      animation: l-float 3.5s ease-in-out infinite;
+    }
+    .loader-img {
+      width: clamp(90px, 18vw, 150px);
+      height: auto;
+      object-fit: contain;
+      filter:
+        drop-shadow(0 14px 40px rgba(247,189,33,.3))
+        drop-shadow(0 0 70px rgba(247,189,33,.1));
+      animation: l-in .9s cubic-bezier(.22,1,.36,1) both;
+    }
+    .loader-img-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 28px;
+      background: radial-gradient(ellipse at center, rgba(247,189,33,.12) 0%, transparent 70%);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+    @keyframes l-in    { from { opacity: 0; transform: scale(.93); } to { opacity: 1; transform: scale(1); } }
+    @keyframes l-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+    /* ---- Brand text ---- */
+    .loader-brand {
+      font-size: clamp(1.9rem, 5vw, 3.1rem);
+      font-weight: 800;
+      letter-spacing: .2em;
+      line-height: 1;
+      margin-bottom: .4rem;
+      direction: ltr;
+      background: linear-gradient(140deg, #fff 0%, #aaa 50%, #e0e0e0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: l-up .6s ease-out .25s both;
+    }
+    .loader-subtitle {
+      font-size: .76rem;
+      letter-spacing: .12em;
+      color: rgba(247,189,33,.65);
+      margin-bottom: 2.5rem;
+      direction: rtl;
+      animation: l-up .6s ease-out .4s both;
+    }
+    @keyframes l-up { from { opacity: 0; transform: translateY(11px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ---- Loading percentage ---- */
+    .loader-pct {
+      font-size: clamp(1.9rem, 5vw, 2.9rem);
+      font-weight: 700;
+      color: rgba(255,255,255,.9);
+      letter-spacing: .04em;
+      line-height: 1;
+      margin-bottom: 1.1rem;
+      min-width: 4.5ch;
+      direction: ltr;
+      animation: l-up .6s ease-out .55s both;
+    }
+
+    /* ---- Premium progress bar ---- */
+    .loader-bar-wrap {
+      width: clamp(220px, 48vw, 300px);
+      height: 8px;
+      background: rgba(255,255,255,.055);
+      border-radius: 100px;
+      overflow: hidden;
+      direction: ltr;
+      margin-bottom: 1rem;
+      box-shadow:
+        0 0 0 1px rgba(247,189,33,.08),
+        0 0 20px rgba(247,189,33,.04);
+      animation: l-up .6s ease-out .6s both;
+    }
+    .loader-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 100px;
+      background: linear-gradient(90deg,
+        rgba(247,189,33,.55) 0%,
+        #F7BD21 55%,
+        rgba(255,225,105,.9) 100%);
+      transition: width .38s cubic-bezier(.25,.46,.45,.94);
+      box-shadow:
+        0 0 12px rgba(247,189,33,.6),
+        0 0 4px rgba(247,189,33,.25);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Moving light sweep */
+    .loader-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -80px; bottom: 0; width: 80px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+      animation: l-sweep 2.2s ease-in-out infinite 1.2s;
+    }
+    @keyframes l-sweep {
+      0%   { left: -80px; opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+
+    /* ---- Status text ---- */
+    .loader-status {
+      font-size: .7rem;
+      color: rgba(255,255,255,.28);
+      letter-spacing: .1em;
+      direction: rtl;
+      animation: l-up .6s ease-out .65s both;
+    }
+
+    /* ---- Reduced motion ---- */
+    @media (prefers-reduced-motion: reduce) {
+      .loader-img-wrap  { animation: none; }
+      .loader-bar-fill::after { display: none; }
+      .loader-particle  { display: none; }
+      #site-loader, .site-header, main { transition: none; }
+      .loader-img, .loader-brand, .loader-subtitle,
+      .loader-pct, .loader-bar-wrap, .loader-status {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="نمایندگی مجاز ۱۷۳۷ زراعتکار — فروش خودرو، سرویس دوره‌ای، خدمات و گارانتی">
   <meta property="og:title" content="نمایندگی ۱۷۳۷ زراعتکار">
@@ -14,6 +236,24 @@
   <link rel="stylesheet" href="css/modal-gallery.css">
 </head>
 <body>
+
+  <!-- ===== SITE LOADER ===== -->
+  <div id="site-loader" role="status" aria-label="در حال بارگذاری">
+    <div class="loader-glow"></div>
+    <div class="loader-particles" id="loaderParticles"></div>
+    <div class="loader-content">
+      <div class="loader-img-wrap">
+        <img src="assets/images/logo-neon.png" alt="" class="loader-img" loading="eager">
+      </div>
+      <p class="loader-brand">BAHMAN</p>
+      <p class="loader-subtitle">نمایندگی ۱۷۳۷ زراعتکار</p>
+      <div class="loader-pct" id="loaderPct" aria-live="polite">0%</div>
+      <div class="loader-bar-wrap" aria-hidden="true">
+        <div class="loader-bar-fill" id="loaderBar"></div>
+      </div>
+      <p class="loader-status">در حال آماده‌سازی تجربه‌ای باکلاس...</p>
+    </div>
+  </div>
 
   <!-- ===== HEADER ===== -->
   <header class="site-header">
@@ -44,7 +284,7 @@
         <p class="hero-subtitle">
           بیش از یک دهه تجربه در فروش خودرو، سرویس دوره‌ای و خدمات پس از فروش. با آسودگی خاطر خودروی خود را از نمایندگی مجاز ما تهیه کنید.
         </p>
-        <a href="#cards" class="hero-cta-btn">مشاهده خودروها</a>
+        <a href="#cards" class="hero-cta-btn">کارشناسان مجموعه</a>
       </div>
 
       <!-- Image Collage -->
@@ -296,6 +536,63 @@
       </div>
     </section>
 
+    <!-- ===== LEAVE A REVIEW ===== -->
+    <section class="review-section" aria-label="ثبت نظر">
+      <div class="review-inner">
+
+        <!-- Section heading -->
+        <header class="review-header">
+          <p class="review-label">نظر شما برای ما ارزشمند است</p>
+          <h2 class="review-title">تجربه خود را با ما به اشتراک بگذارید</h2>
+          <p class="review-desc">اگر از خدمات ما استفاده کرده‌اید، لطفاً نظر خود را همراه با شماره تماس ثبت کنید.</p>
+        </header>
+
+        <!-- Review form -->
+        <form class="review-form" id="reviewForm" novalidate>
+
+          <!-- Name + Phone in a two-column row -->
+          <div class="review-fields-row">
+            <div class="review-field-group">
+              <label class="review-field-label" for="reviewName">نام و نام خانوادگی</label>
+              <input type="text" id="reviewName" class="review-input" placeholder="نام خود را وارد کنید" autocomplete="name">
+              <span class="review-field-error" id="reviewNameErr" role="alert"></span>
+            </div>
+            <div class="review-field-group">
+              <label class="review-field-label" for="reviewPhone">شماره تماس</label>
+              <input type="tel" id="reviewPhone" class="review-input" placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" autocomplete="tel">
+              <span class="review-field-error" id="reviewPhoneErr" role="alert"></span>
+            </div>
+          </div>
+
+          <!-- Star rating -->
+          <div class="review-field-group">
+            <span class="review-field-label">امتیاز شما</span>
+            <div class="review-stars" id="reviewStars" role="group" aria-label="امتیاز دهی">
+              <button type="button" class="review-star" aria-label="یک ستاره">★</button>
+              <button type="button" class="review-star" aria-label="دو ستاره">★</button>
+              <button type="button" class="review-star" aria-label="سه ستاره">★</button>
+              <button type="button" class="review-star" aria-label="چهار ستاره">★</button>
+              <button type="button" class="review-star" aria-label="پنج ستاره">★</button>
+            </div>
+            <span class="review-field-error" id="reviewStarErr" role="alert"></span>
+          </div>
+
+          <!-- Review textarea -->
+          <div class="review-field-group">
+            <label class="review-field-label" for="reviewText">نظر شما</label>
+            <textarea id="reviewText" class="review-input review-textarea" placeholder="نظر شما..." rows="5"></textarea>
+            <span class="review-field-error" id="reviewTextErr" role="alert"></span>
+          </div>
+
+          <!-- Submit button -->
+          <div class="review-submit-wrap">
+            <button type="submit" class="review-submit-btn">ثبت نظر</button>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
   </main>
 
   <!-- ===== MODAL تماس با ما ===== -->
@@ -484,6 +781,254 @@
       closeBtn.addEventListener('click', close);
       modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+  <script>
+    /* ===== REVIEW FORM ===== */
+    (function () {
+      var form       = document.getElementById('reviewForm');
+      var nameInput  = document.getElementById('reviewName');
+      var phoneInput = document.getElementById('reviewPhone');
+      var textInput  = document.getElementById('reviewText');
+      var nameErr    = document.getElementById('reviewNameErr');
+      var phoneErr   = document.getElementById('reviewPhoneErr');
+      var starErr    = document.getElementById('reviewStarErr');
+      var textErr    = document.getElementById('reviewTextErr');
+      var starsWrap  = document.getElementById('reviewStars');
+      var starBtns   = Array.from(starsWrap.querySelectorAll('.review-star'));
+
+      var selectedRating = 0; /* 0 = nothing selected yet */
+
+      /* ---- Star interaction ---- */
+      function paintStars(upTo) {
+        starBtns.forEach(function (btn, idx) {
+          btn.classList.toggle('is-lit', idx < upTo);
+        });
+      }
+
+      starBtns.forEach(function (btn, idx) {
+        btn.addEventListener('mouseenter', function () { paintStars(idx + 1); });
+        btn.addEventListener('click', function () {
+          selectedRating = idx + 1;
+          paintStars(selectedRating);
+          starErr.textContent = '';
+          starsWrap.classList.remove('is-error');
+        });
+      });
+
+      /* Revert to current selection when cursor leaves the star group */
+      starsWrap.addEventListener('mouseleave', function () { paintStars(selectedRating); });
+
+      /* ---- Viewport fade-in ---- */
+      var inner = document.querySelector('.review-inner');
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { inner.classList.add('is-visible'); obs.disconnect(); }
+        }, { threshold: 0.1 });
+        obs.observe(inner);
+      } else {
+        inner.classList.add('is-visible');
+      }
+
+      /* ---- Toast ---- */
+      var toast = document.createElement('div');
+      toast.className = 'review-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.textContent = 'نظر شما با موفقیت ثبت شد. از همراهی شما سپاسگزاریم.';
+      document.body.appendChild(toast);
+
+      var toastTimer = null;
+      function showToast() {
+        clearTimeout(toastTimer);
+        toast.classList.add('is-visible');
+        toastTimer = setTimeout(function () { toast.classList.remove('is-visible'); }, 4500);
+      }
+
+      /* ---- Helpers ---- */
+      function normalizeDigits(str) {
+        return str
+          .replace(/[۰-۹]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) - 1728); })
+          .replace(/[٠-٩]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) - 1584); })
+          .replace(/[\s\-]/g, '');
+      }
+
+      function isValidIranPhone(val) {
+        return /^09[0-9]{9}$/.test(normalizeDigits(val));
+      }
+
+      function clearFieldError(input, errEl) {
+        errEl.textContent = '';
+        input.classList.remove('is-error');
+      }
+
+      function setFieldError(input, errEl, msg) {
+        errEl.textContent = msg;
+        input.classList.add('is-error');
+      }
+
+      nameInput.addEventListener('input',  function () { clearFieldError(nameInput,  nameErr);  });
+      phoneInput.addEventListener('input', function () { clearFieldError(phoneInput, phoneErr); });
+      textInput.addEventListener('input',  function () { clearFieldError(textInput,  textErr);  });
+
+      /* ---- Submit: validate in reverse order so focus lands on the first error field ---- */
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var nameVal  = nameInput.value.trim();
+        var phoneVal = phoneInput.value.trim();
+        var textVal  = textInput.value.trim();
+        var valid    = true;
+        var focusTarget = null;
+
+        if (!textVal) {
+          setFieldError(textInput, textErr, 'لطفاً متن نظر خود را بنویسید');
+          valid = false; focusTarget = textInput;
+        } else { clearFieldError(textInput, textErr); }
+
+        if (selectedRating === 0) {
+          starErr.textContent = 'لطفاً امتیاز خود را انتخاب کنید';
+          starsWrap.classList.add('is-error');
+          valid = false; focusTarget = starBtns[0];
+        } else {
+          starErr.textContent = '';
+          starsWrap.classList.remove('is-error');
+        }
+
+        if (!phoneVal) {
+          setFieldError(phoneInput, phoneErr, 'لطفاً شماره تماس را وارد کنید');
+          valid = false; focusTarget = phoneInput;
+        } else if (!isValidIranPhone(phoneVal)) {
+          setFieldError(phoneInput, phoneErr, 'شماره موبایل معتبر ایرانی وارد کنید (مثال: ۰۹۱۲۳۴۵۶۷۸۹)');
+          valid = false; focusTarget = phoneInput;
+        } else { clearFieldError(phoneInput, phoneErr); }
+
+        if (!nameVal) {
+          setFieldError(nameInput, nameErr, 'لطفاً نام خود را وارد کنید');
+          valid = false; focusTarget = nameInput;
+        } else { clearFieldError(nameInput, nameErr); }
+
+        if (!valid) { if (focusTarget) { try { focusTarget.focus(); } catch (ex) {} } return; }
+
+        /* All valid */
+        form.reset();
+        selectedRating = 0;
+        paintStars(0);
+        showToast();
+      });
+    })();
+  </script>
+  <script>
+    /* ===== SITE LOADER JS ===== */
+    (function () {
+      var loader = document.getElementById('site-loader');
+      var pctEl  = document.getElementById('loaderPct');
+      var barEl  = document.getElementById('loaderBar');
+      var ptCon  = document.getElementById('loaderParticles');
+
+      if (!loader || !pctEl || !barEl) return;
+
+      var reduced  = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var displayed = 0, target = 0, done = false, hiding = false;
+      var rafId;
+
+      /* ---- Spawn floating particles ---- */
+      if (!reduced && ptCon) {
+        for (var i = 0; i < 14; i++) {
+          (function () {
+            var p = document.createElement('div');
+            p.className = 'loader-particle';
+            p.style.left              = (Math.random() * 100) + '%';
+            p.style.width             = p.style.height = (1 + Math.random() * 2) + 'px';
+            p.style.animationDuration = (7 + Math.random() * 9) + 's';
+            p.style.animationDelay    = (Math.random() * 7) + 's';
+            ptCon.appendChild(p);
+          })();
+        }
+      }
+
+      /* ---- Progress helpers ---- */
+      function setTarget(v) { target = Math.max(target, Math.min(100, v)); }
+
+      function tick() {
+        var gap = target - displayed;
+        if (gap > 0.05) {
+          displayed += gap * 0.045 + 0.25;
+          if (displayed > target) displayed = target;
+          var r = Math.floor(displayed);
+          pctEl.textContent = r + '%';
+          barEl.style.width = r + '%';
+        }
+        if (done && !hiding && displayed >= 99.5) {
+          hiding = true;
+          pctEl.textContent = '100%';
+          barEl.style.width = '100%';
+          setTimeout(dismiss, 300);
+          return;
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function dismiss() {
+        cancelAnimationFrame(rafId);
+        if (reduced) { reveal(); return; }
+        loader.classList.add('is-hiding');
+        setTimeout(reveal, 450);
+      }
+
+      function reveal() {
+        loader.style.display = 'none';
+        var hdr = document.querySelector('.site-header');
+        var mn  = document.querySelector('main');
+        if (hdr) hdr.classList.add('app-ready');
+        if (mn)  mn.classList.add('app-ready');
+      }
+
+      function complete() {
+        if (done) return;
+        done = true;
+        setTarget(100);
+      }
+
+      /* ---- Phase 1: fast progress to 62% over 1.1 s ---- */
+      var p1end = Date.now() + 1100;
+      function phase1() {
+        var rem = p1end - Date.now();
+        if (rem > 0) {
+          setTarget(Math.round((1 - rem / 1100) * 62));
+          setTimeout(phase1, 16);
+        }
+      }
+      phase1();
+      rafId = requestAnimationFrame(tick);
+
+      /* ---- Track actual readiness ---- */
+      var f = { dom: false, fonts: false, img: false };
+      function check() { if (f.dom && f.fonts && f.img) complete(); }
+
+      /* DOM */
+      if (document.readyState !== 'loading') {
+        f.dom = true; setTarget(25); check();
+      } else {
+        document.addEventListener('DOMContentLoaded', function () { f.dom = true; setTarget(25); check(); });
+      }
+
+      /* Fonts — 2.2s timeout */
+      var ft = setTimeout(function () { f.fonts = true; setTarget(72); check(); }, 2200);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { clearTimeout(ft); f.fonts = true; setTarget(72); check(); });
+      } else {
+        clearTimeout(ft); f.fonts = true; setTarget(72); check();
+      }
+
+      /* Hero image */
+      var it = setTimeout(function () { f.img = true; setTarget(88); check(); }, 3500);
+      var hi = new Image();
+      hi.onload = hi.onerror = function () { clearTimeout(it); f.img = true; setTarget(88); check(); };
+      hi.src = 'assets/images/hero-1.png';
+
+      /* Absolute failsafe */
+      setTimeout(complete, 6000);
     })();
   </script>
 </body>
