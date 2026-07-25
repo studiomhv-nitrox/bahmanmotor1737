@@ -6,7 +6,8 @@
     /* ============================
        SITE LOADER — CRITICAL CSS
        ============================ */
-    html { background: #0d0d0d; }
+    html,
+    body { background: #0d0d0d; }
 
     /* Hide page content until loader completes */
     .site-header,
@@ -29,6 +30,8 @@
       justify-content: center;
       font-family: 'Vazirmatn', -apple-system, sans-serif;
       background: linear-gradient(155deg, #030303 0%, #0f0f0f 55%, #060606 100%);
+      min-height: 100vh;
+      min-height: 100dvh;
       overflow: hidden;
       transition: opacity .45s ease;
     }
