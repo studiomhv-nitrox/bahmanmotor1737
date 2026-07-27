@@ -1536,7 +1536,8 @@ a { color: inherit; text-decoration: none; }
 
 /* ---- INPUT AREA ---- */
 .chatbot-input-area {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-end;
   gap: 0.5rem;
   padding: 0.75rem 0.9rem;
@@ -1584,6 +1585,7 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  justify-self: start;
   transition: all 0.2s ease;
 }
 
