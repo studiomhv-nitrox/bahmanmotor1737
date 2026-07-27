@@ -1547,6 +1547,7 @@ a { color: inherit; text-decoration: none; }
 
 .chatbot-input {
   flex: 1;
+  min-width: 0;
   padding: 0.65rem 0.85rem;
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.05);
@@ -1601,6 +1602,12 @@ a { color: inherit; text-decoration: none; }
   transform: scale(0.95);
 }
 
+.chatbot-send-btn svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
 /* ---- MOBILE RESPONSIVE ---- */
 @media (max-width: 480px) {
   .chatbot-floating-btn {
@@ -1647,7 +1654,6 @@ a { color: inherit; text-decoration: none; }
     gap: 0.4rem;
     padding: 0.65rem 0.8rem;
   }
-}
 
   .chatbot-input {
     font-size: 0.8rem;
